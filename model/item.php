@@ -126,4 +126,23 @@ class Item {
         }
         return false;
     }
+
+    public function loadById($id)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM items WHERE id = :id");
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($data){
+            $this->id = $data['id'];
+            $this->name = $data['name'];
+            $this->description = $data['description'];
+            $this->type = $data['type'];
+            $this->effect = $data['effect'];
+            $this->image = $data['image'];
+            return true;
+        }
+        return false;
+        }
+        
 }

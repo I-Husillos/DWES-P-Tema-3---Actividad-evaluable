@@ -125,21 +125,28 @@ class Enemy {
         return $this;
     }
 
-    public function create_enemy()
+
+    public function loadById($id)
     {
-        $stmt = $this->db->prepare(
-            "INSERT INTO enemies (name, description, isBoss, health, strength, defense, image) 
-            VALUES (:name, :description, :isBoss, :health, :strength, :defense, :image)"
-        );
-        $stmt->bindParam(':name', $this->getName());
-        $stmt->bindParam(':description', $this->getDescription());
-        $stmt->bindParam(':isBoss', $this->getIsBoss());
-        $stmt->bindParam(':health', $this->getHealth());
-        $stmt->bindParam(':strength', $this->getHealth());
-        $stmt->bindParam(':defense', $this->getHealth());
-        $stmt->bindParam(':image', $this->getImage());
-        return $stmt->execute();
+        $stmt = $this->db->prepare("SELECT * FROM enemies WHERE id = :id");
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($data) {
+            $this->id = $data['id'];
+            $this->name = $data['name'];
+            $this->description = $data['description'];
+            $this->isBoss = $data['isBoss'];
+            $this->health = $data['health'];
+            $this->strength = $data['strength'];
+            $this->defense = $data['defense'];
+            $this->image = $data['image'];
+            return true;
+        }
+        return false;
     }
+
 
     public function getAll()
     {
@@ -177,16 +184,6 @@ class Enemy {
         $stmt->bindParam(':defense', $this->getDefense());
         $stmt->bindParam(':image', $this->getImage());
         return $stmt->execute();
-    }
-
-    public function delete()
-    {
-        if(!$this->id) {
-            $stmt = $this->db->prepare("DELETE FROM enemies WHERE id = :id");
-            $stmt->bindParam(':id', $this->id);
-            return $stmt->execute();
-        }
-        return false;
     }
 
 }
