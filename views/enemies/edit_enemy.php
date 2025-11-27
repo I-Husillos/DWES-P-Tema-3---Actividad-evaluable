@@ -40,6 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Editar Enemigo</title>
 </head>
 <body>
+    <h1>Menu: </h1>
+    <?php include('../partials/_menu.php') ?>
     <h1>Editar Enemigo</h1>
     <form method="POST">
         <label for="name">Nombre:</label>

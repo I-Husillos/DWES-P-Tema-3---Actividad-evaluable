@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <label for="typeInput">Tipo:</label>
         <select name="type" id="typeInput">
             <?php foreach ($item_types as $type) : ?>
-                <option value="<?= $type ?>"><?= ucfirst($type) ?></option>
+                <option value="<?= $type ?>"><?= htmlspecialchars($type) ?></option>
             <?php endforeach; ?>
         </select>
 

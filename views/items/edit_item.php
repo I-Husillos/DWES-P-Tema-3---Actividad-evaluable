@@ -4,6 +4,7 @@ require_once("../../model/Item.php");
 
 $itemId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
+
 if ($itemId <= 0) {
     echo "ID de item inválido.";
     exit;
@@ -38,6 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Editar Item</title>
 </head>
 <body>
+    <h1>Menu: </h1>
+    <?php include('../partials/_menu.php') ?>
     <h1>Editar Item</h1>
     <form method="POST">
         <label for="name">Nombre:</label>
@@ -47,13 +50,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <textarea name="description" id="description" required><?= htmlspecialchars($item->getDescription()) ?></textarea><br>
 
         <label for="type">Tipo:</label>
-        <input type="text" name="type" id="type" value="<?= htmlspecialchars($item->getType()) ?>" required><br>
+        <select name="type" id="type" required>
+            <option value="weapon" <?= $item->getType() == 'weapon' ? 'selected' : ''?>>Arma</option>
+            <option value="armor" <?= $item->getType() == 'armor' ? 'selected' : ''?>>Armadura</option>
+            <option value="potion" <?= $item->getType() == 'potion' ? 'selected' : ''?>>Pocion</option>
+            <option value="misc" <?= $item->getType() == 'misc' ? 'selected' : ''?>>Miscelaneo</option>
+        </select><br>
+
 
         <label for="effect">Efecto:</label>
         <input type="text" name="effect" id="effect" value="<?= htmlspecialchars($item->getEffect()) ?>" required><br>
 
         <label for="image">Imagen:</label>
-        <input type="text" name="image" id="image" value="<?= htmlspecialchars($item->getImage()) ?>" required><br>
+        <input type="text" name="image" id="image" value="<?= htmlspecialchars($item->getImage()) ?>"><br>
 
         <button type="submit">Guardar Cambios</button>
     </form>
