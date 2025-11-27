@@ -18,6 +18,7 @@ if (!$enemy->loadById($enemyId)) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $enemy->setName(trim($_POST['name']))
+            ->setIsBoss(isset($_POST['isBoss']) ? 1 : 0)
             ->setDescription(trim($_POST['description']))
             ->setHealth(intval($_POST['health']))
             ->setStrength(intval($_POST['strength']))
@@ -44,8 +45,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <label for="name">Nombre:</label>
         <input type="text" name="name" id="name" value="<?= htmlspecialchars($enemy->getName()) ?>" required><br>
 
+        <label for="isBoss">Es Boss:</label>
+        <input type="checkbox" name="isBoss" id="isBoss" value="<?= $enemy->getIsBoss() ? 'checked' : ''?>"><br>
+
         <label for="description">Descripción:</label>
-        <textarea name="description" id="description" required>
+        <textarea name="description" id="description" required><?= htmlspecialchars($enemy->getDescription()) ?></textarea><br>
 
         <label for="health">Vida:</label>
         <input type="number" name="health" id="health" value="<?= htmlspecialchars($enemy->getHealth()) ?>" required><br>

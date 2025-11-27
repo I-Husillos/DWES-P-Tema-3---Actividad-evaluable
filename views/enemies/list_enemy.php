@@ -38,11 +38,12 @@ $enemies = $enemyModel->getAll();
     </form>
 
     <h1>Enemigos creados: </h1>
-    <table>
+    <table border="1">
         <thead>
             <tr>
                 <th>Imagen</th>
                 <th>Nombre</th>
+                <th>Es Boss</th>
                 <th>Descripcion</th>
                 <th>Salud</th>
                 <th>Fuerza</th>
@@ -55,6 +56,7 @@ $enemies = $enemyModel->getAll();
                 <tr>
                     <td>img</td>
                     <td><?= $enemy['name'] ?></td>
+                    <td><?= $enemy['isBoss'] ?></td>
                     <td><?= $enemy['description'] ?></td>
                     <td><?= $enemy['health'] ?></td>
                     <td><?= $enemy['strength'] ?></td>

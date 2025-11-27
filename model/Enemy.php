@@ -22,7 +22,7 @@ class Enemy {
         return $this->id;
     }
 
-    public function setId($id): self
+    public function setId($id)
     {
         $this->id = $id;
 
@@ -34,7 +34,7 @@ class Enemy {
         return $this->description;
     }
 
-    public function setDescription($description): self
+    public function setDescription($description)
     {
         $this->description = $description;
 
@@ -46,7 +46,7 @@ class Enemy {
         return $this->name;
     }
 
-    public function setName($name): self
+    public function setName($name)
     {
         $this->name = $name;
 
@@ -58,7 +58,7 @@ class Enemy {
         return $this->isBoss;
     }
 
-    public function setIsBoss($isBoss): self
+    public function setIsBoss($isBoss)
     {
         $this->isBoss = $isBoss;
 
@@ -70,7 +70,7 @@ class Enemy {
         return $this->health;
     }
 
-    public function setHealth($health): self
+    public function setHealth($health)
     {
         $this->health = $health;
 
@@ -82,7 +82,7 @@ class Enemy {
         return $this->strength;
     }
 
-    public function setStrength($strength): self
+    public function setStrength($strength)
     {
         $this->strength = $strength;
 
@@ -94,7 +94,7 @@ class Enemy {
         return $this->defense;
     }
 
-    public function setDefense($defense): self
+    public function setDefense($defense)
     {
         $this->defense = $defense;
 
@@ -106,7 +106,7 @@ class Enemy {
         return $this->image;
     }
 
-    public function setImage($image): self
+    public function setImage($image)
     {
         $this->image = $image;
 
@@ -118,7 +118,7 @@ class Enemy {
         return $this->db;
     }
 
-    public function setDb($db): self
+    public function setDb($db)
     {
         $this->db = $db;
 
@@ -155,12 +155,25 @@ class Enemy {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function delete()
+    {
+        if ($this->id) {
+            $stmt = $this->db->prepare("DELETE FROM enemies WHERE id = :id");
+            $stmt->bindParam(':id', $this->id);
+            return $stmt->execute();
+        }
+        return false;
+    }
+
+
+
     function save()
     {
         if ($this->id) {
             $stmt = $this->db->prepare(
                 "UPDATE enemies
                         SET name = :name,
+                        description = :description,
                         isBoss = :isBoss,
                         health = :health,
                         strength = :strength,
@@ -172,17 +185,27 @@ class Enemy {
         } else {
             $stmt = $this->db->prepare(
                 "INSERT INTO enemies
-                        (name, isBoss, health, strength, defense, image)
-                VALUES (:name, :isBoss, :health, :strength, :defense, :image)"
+                        (name, description, isBoss, health, strength, defense, image)
+                VALUES (:name, :description, :isBoss, :health, :strength, :defense, :image)"
             );
         }
         
-        $stmt->bindParam(':name', $this->getName());
-        $stmt->bindParam(':isBoss', $this->getIsBoss());
-        $stmt->bindParam(':health', $this->getHealth());
-        $stmt->bindParam(':strength', $this->getStrength());
-        $stmt->bindParam(':defense', $this->getDefense());
-        $stmt->bindParam(':image', $this->getImage());
+        // $stmt->bindParam(':name', $this->getName());
+        // $stmt->bindParam(':description', $this->getDescription());
+        // $stmt->bindParam(':isBoss', $this->getIsBoss());
+        // $stmt->bindParam(':health', $this->getHealth());
+        // $stmt->bindParam(':strength', $this->getStrength());
+        // $stmt->bindParam(':defense', $this->getDefense());
+        // $stmt->bindParam(':image', $this->getImage());
+
+        $stmt->bindParam(':name', $this->name);
+        $stmt->bindParam(':description', $this->description);
+        $stmt->bindParam(':isBoss', $this->isBoss);
+        $stmt->bindParam(':health', $this->health);
+        $stmt->bindParam(':strength', $this->strength);
+        $stmt->bindParam(':defense', $this->defense);
+        $stmt->bindParam(':image', $this->image);
+
         return $stmt->execute();
     }
 

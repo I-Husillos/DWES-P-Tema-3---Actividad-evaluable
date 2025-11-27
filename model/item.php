@@ -20,7 +20,7 @@ class Item {
         return $this->id;
     }
 
-    public function setId($id): self
+    public function setId($id)
     {
         $this->id = $id;
         return $this;
@@ -31,7 +31,7 @@ class Item {
         return $this->name;
     }
 
-    public function setName($name): self
+    public function setName($name)
     {
         $this->name = $name;
         return $this;
@@ -42,7 +42,7 @@ class Item {
         return $this->description;
     }
 
-    public function setDescription($description): self
+    public function setDescription($description)
     {
         $this->description = $description;
         return $this;
@@ -53,7 +53,7 @@ class Item {
         return $this->type;
     }
 
-    public function setType($type): self
+    public function setType($type)
     {
         $this->type = $type;
         return $this;
@@ -64,7 +64,7 @@ class Item {
         return $this->effect;
     }
 
-    public function setEffect($effect): self
+    public function setEffect($effect)
     {
         $this->effect = $effect;
         return $this;
@@ -75,11 +75,23 @@ class Item {
         return $this->image;
     }
 
-    public function setImage($image): self
+    public function setImage($image)
     {
         $this->image = $image;
         return $this;
     }
+
+    public function getDb()
+    {
+        return $this->db;
+    }
+
+    public function setDb($db)
+    {
+        $this->db = $db;
+        return $this;
+    }
+
 
     function save()
     {
@@ -102,11 +114,18 @@ class Item {
             );
         }
 
-        $stmt->bindParam(':name', $this->getName());
-        $stmt->bindParam(':description', $this->getDescription());
-        $stmt->bindParam(':type', $this->getType());
-        $stmt->bindParam(':effect', $this->getEffect());
-        $stmt->bindParam(':image', $this->getImage());
+        // $stmt->bindParam(':name', $this->getName());
+        // $stmt->bindParam(':description', $this->getDescription());
+        // $stmt->bindParam(':type', $this->getType());
+        // $stmt->bindParam(':effect', $this->getEffect());
+        // $stmt->bindParam(':image', $this->getImage());
+
+        $stmt->bindParam(':name', $this->name);
+        $stmt->bindParam(':description', $this->description);
+        $stmt->bindParam(':type', $this->type);
+        $stmt->bindParam(':effect', $this->effect);
+        $stmt->bindParam(':image', $this->image);
+
         return $stmt->execute();
     }
 
@@ -119,7 +138,7 @@ class Item {
 
     public function delete()
     {
-        if(!$this->id) {
+        if($this->id) {
             $stmt = $this->db->prepare("DELETE FROM items WHERE id = :id");
             $stmt->bindParam(':id', $this->id);
             return $stmt->execute();
@@ -143,6 +162,5 @@ class Item {
             return true;
         }
         return false;
-        }
-        
+    }
 }

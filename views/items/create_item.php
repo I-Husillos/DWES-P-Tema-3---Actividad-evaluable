@@ -1,8 +1,9 @@
 <?php
 
-require_once("../config/db.php");
-require_once("../model/Item.php");
+require_once("../../config/db.php");
+require_once("../../model/Item.php");
 
+$item_types = ['weapon', 'armor', 'potion', 'misc'];
 $items = [];
 
 try {
@@ -21,7 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ->setImage($_POST['image']);
 
     if ($item->save()) {
-        echo "Item guardado con exito";
+        // Redirect to avoid form resubmission
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit;
     }
 }
 ?>
@@ -35,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
     <h1>Menu: </h1>
-    <?php include('_menu.php') ?>
+    <?php include('../partials/_menu.php') ?>
     <h1>Crea tu item</h1>
     <form action=<?= $_SERVER['PHP_SELF'] ?> method='POST'>
         <label for="nameInput">Nombre:</label>
@@ -44,11 +47,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <label for="descriptionInput">Descripción:</label>
         <input type="text" name="description" id="descriptionInput">
 
+        <!--type (weapon, armor, potion, misc).-->
         <label for="typeInput">Tipo:</label>
-        <input type="text" name="type" id="typeInput">
+        <select name="type" id="typeInput">
+            <?php foreach ($item_types as $type) : ?>
+                <option value="<?= $type ?>"><?= ucfirst($type) ?></option>
+            <?php endforeach; ?>
+        </select>
+
 
         <label for="effectInput">Efecto:</label>
-        <input type="text" name="effect" id="effectInput">
+        <input type="number" name="effect" id="effectInput">
 
         <label for="imageInput">Imagen:</label>
         <input type="text" name="image" id="imageInput">
@@ -57,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </form>
 
     <h1>Items creados: </h1>
-    <table>
+    <table border="1">
         <thead>
             <tr>
                 <th>Imagen</th>
@@ -65,6 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <th>Descripcion</th>
                 <th>Tipo</th>
                 <th>Efecto</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -81,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <button type="submit">Editar</button>
                         </form>
                         <form action="delete_item.php" method="POST">
-                            <input type="hidden" name="id" value=<?= $item['id'] ?>" />
+                            <input type="hidden" name="id" value="<?= $item['id'] ?>" />
                             <button type="submit">Borrar</button>
                         </form>
                     </td>

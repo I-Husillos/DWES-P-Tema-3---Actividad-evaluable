@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     $enemy = new Enemy($db);
     $enemy->setName($_POST['name'])
         ->setDescription($_POST['description'])
+        ->setIsBoss(isset($_POST['isBoss']) ? 1 : 0)
         ->setHealth($_POST['health'])
         ->setStrength($_POST['strength'])
         ->setDefense($_POST['defense']);
@@ -44,6 +45,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         <label for="descriptionInput">Descripción:</label>
         <input type="text" name="description" id="descriptionInput">
 
+        <label for="isBossInput">Es Boss:</label>
+        <input type="checkbox" name="isBoss" id="isBossInput" value="1">
+
         <label for="healthInput">Vida:</label>
         <input type="number" name="health" id="healthInput" value="100">
 
@@ -57,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     </form>
 
     <h1>Enemigos creados: </h1>
-    <table>
+    <table border="1">
         <thead>
             <tr>
                 <th>Imagen</th>
