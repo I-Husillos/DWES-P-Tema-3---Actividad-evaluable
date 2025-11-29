@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ->setDescription(trim($_POST['description']))
         ->setType(trim($_POST['type']))
         ->setEffect(trim($_POST['effect']))
-        ->setImage(trim($_POST['image']));
+        ->setImg(trim($_POST['img']));
         if ($item->save()) {
         header("Location: list_item.php");
         exit;
@@ -59,10 +59,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
         <label for="effect">Efecto:</label>
-        <input type="text" name="effect" id="effect" value="<?= htmlspecialchars($item->getEffect()) ?>" required><br>
+        <input type="number" name="effect" id="effect" value="<?= htmlspecialchars($item->getEffect()) ?>" required><br>
 
         <label for="image">Imagen:</label>
-        <input type="text" name="image" id="image" value="<?= htmlspecialchars($item->getImage()) ?>"><br>
+        <input type="text" name="img" id="img" value="<?= htmlspecialchars($item->getImg()) ?>"><br>
 
         <button type="submit">Guardar Cambios</button>
     </form>

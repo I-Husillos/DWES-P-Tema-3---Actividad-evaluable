@@ -5,6 +5,21 @@ require_once("../../model/Item.php");
 $itemModel = new Item($db);
 $items = $itemModel->getAll();
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $item = new Item($db);
+    $item->setName($_POST['name'])
+        ->setDescription($_POST['description'])
+        ->setType($_POST['type'])
+        ->setEffect($_POST['effect'])
+        ->setImg($_POST['img']);
+
+    if ($item->save()) {
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit;
+    }
+}
+
+
 ?>
 
 <!DOCTYPE html>

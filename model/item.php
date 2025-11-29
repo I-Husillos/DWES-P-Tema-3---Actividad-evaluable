@@ -6,7 +6,7 @@ class Item {
     private $description;
     private $type;
     private $effect;
-    private $image;
+    private $img;
 
     private $db;
 
@@ -48,8 +48,7 @@ class Item {
         return $this;
     }
 
-    public function getType()
-    {
+    public function getType(){
         return $this->type;
     }
 
@@ -70,14 +69,14 @@ class Item {
         return $this;
     }
 
-    public function getImage()
+    public function getImg()
     {
-        return $this->image;
+        return $this->img;
     }
 
-    public function setImage($image)
+    public function setImg($img)
     {
-        $this->image = $image;
+        $this->img = $img;
         return $this;
     }
 
@@ -102,29 +101,23 @@ class Item {
                         description = :description,
                         type = :type,
                         effect = :effect,
-                        image = :image
+                        img = :img
                         WHERE id = :id"
             );
             $stmt->bindParam(':id', $this->id);
         } else {
             $stmt = $this->db->prepare(
                 "INSERT INTO items
-                        (name, description, type, effect, image)
-                VALUES (:name, :description, :type, :effect, :image)"
+                        (name, description, type, effect, img)
+                VALUES (:name, :description, :type, :effect, :img)"
             );
         }
-
-        // $stmt->bindParam(':name', $this->getName());
-        // $stmt->bindParam(':description', $this->getDescription());
-        // $stmt->bindParam(':type', $this->getType());
-        // $stmt->bindParam(':effect', $this->getEffect());
-        // $stmt->bindParam(':image', $this->getImage());
 
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':description', $this->description);
         $stmt->bindParam(':type', $this->type);
         $stmt->bindParam(':effect', $this->effect);
-        $stmt->bindParam(':image', $this->image);
+        $stmt->bindParam(':img', $this->img);
 
         return $stmt->execute();
     }
@@ -158,7 +151,7 @@ class Item {
             $this->description = $data['description'];
             $this->type = $data['type'];
             $this->effect = $data['effect'];
-            $this->image = $data['image'];
+            $this->img = $data['img'];
             return true;
         }
         return false;

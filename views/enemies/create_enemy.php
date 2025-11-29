@@ -3,14 +3,9 @@
 require_once("../../config/db.php");
 require_once("../../model/Enemy.php");
 
-$enemies = [];
+$enemyModel = new Enemy($db);
+$enemies = $enemyModel->getAll();
 
-try{
-    $stmt = $db->query("SELECT * FROM enemies");
-    $enemies = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    echo "Error al leer en base de datos: " . $e->getMessage();
-}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     $enemy = new Enemy($db);
@@ -19,7 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         ->setIsBoss(isset($_POST['isBoss']) ? 1 : 0)
         ->setHealth($_POST['health'])
         ->setStrength($_POST['strength'])
-        ->setDefense($_POST['defense']);
+        ->setDefense($_POST['defense'])
+        ->setImg($_POST['img']);
+
 
     if ($enemy->save()){
         echo "Enemigo guardado con exito";
@@ -40,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     <h1>Crea tu enemigo</h1>
     <form action=<?= $_SERVER['PHP_SELF'] ?> method='POST'>
         <label for="nameInput">Nombre:</label>
-        <input type="text" name="name" id="nameInput">
+        <input type="text" name="name" id="nameInput" required>
 
         <label for="descriptionInput">Descripción:</label>
         <input type="text" name="description" id="descriptionInput">
@@ -52,10 +49,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         <input type="number" name="health" id="healthInput" value="100">
 
         <label for="strengthInput">Fuerza:</label>
-        <input type="nummber" name="strength" id="strengthInput" value="10">
+        <input type="number" name="strength" id="strengthInput" value="10">
 
         <label for="defenseInput">Defensa:</label>
         <input type="number" name="defense" id="defenseInput" value="10">
+
+        <label for="imageInput">Imagen del enemigo:</label>
+        <input type="text" name="img" id="imageInput">
 
         <button type="submit">Crear enemigo</button>
     </form>
@@ -67,6 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                 <th>Imagen</th>
                 <th>Nombre</th>
                 <th>Descripcion</th>
+                <th>Es Boss</th>
                 <th>Salud</th>
                 <th>Fuerza</th>
                 <th>Defensa</th>
@@ -76,9 +77,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         <tbody>
             <?php foreach ($enemies as $enemy) : ?>
                 <tr>
-                    <td>img</td>
+                    <td>
+                        <?php if(!empty($enemy['img'])) { ?>
+                            <img src="<?= $enemy["img"] ?>" alt="<?= $enemy["name"] ?>">
+                        <?php }; ?>
+                    </td>
                     <td><?= $enemy['name'] ?></td>
                     <td><?= $enemy['description'] ?></td>
+                    <td><?= $enemy['isBoss']==1 ? 'Si' : 'No' ?></td>
                     <td><?= $enemy['health'] ?></td>
                     <td><?= $enemy['strength'] ?></td>
                     <td><?= $enemy['defense'] ?></td>

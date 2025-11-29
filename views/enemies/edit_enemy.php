@@ -22,7 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             ->setDescription(trim($_POST['description']))
             ->setHealth(intval($_POST['health']))
             ->setStrength(intval($_POST['strength']))
-            ->setDefense(intval($_POST['defense']));
+            ->setDefense(intval($_POST['defense']))
+            ->setImg(trim($_POST['img']));
+            $enemy->setImg($_POST['img']);            
     if ($enemy->save()) {
         header("Location: list_enemy.php");
         exit;
@@ -48,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <input type="text" name="name" id="name" value="<?= htmlspecialchars($enemy->getName()) ?>" required><br>
 
         <label for="isBoss">Es Boss:</label>
-        <input type="checkbox" name="isBoss" id="isBoss" value="<?= $enemy->getIsBoss() ? 'checked' : ''?>"><br>
+        <input type="checkbox" name="isBoss" id="isBoss" value="1"<?= $enemy->getIsBoss() ? 'checked' : ''?>><br>
 
         <label for="description">Descripción:</label>
         <textarea name="description" id="description" required><?= htmlspecialchars($enemy->getDescription()) ?></textarea><br>
@@ -60,7 +62,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <input type="number" name="strength" id="strength" value="<?= htmlspecialchars($enemy->getStrength()) ?>" required><br>
 
         <label for="defense">Defensa:</label>
-        <input type="number" name="defense" id="defense" value="<?= htmlspecialchars($enemy->getDefense()) ?>" required><br>
+        <input type="number" name="defense" id="defense" value="<?= htmlspecialchars($enemy->getDefense()) ?>"  required><br>
+
+        <label for="image">Imagen del enemigo:</label>
+        <input type="text" name="img" id="img" value="<?= htmlspecialchars($enemy->getImg()) ?>"><br>
+
 
         <button type="submit">Guardar Cambios</button>
     </form>

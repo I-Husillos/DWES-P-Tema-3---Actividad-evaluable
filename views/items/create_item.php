@@ -3,15 +3,10 @@
 require_once("../../config/db.php");
 require_once("../../model/Item.php");
 
-$item_types = ['weapon', 'armor', 'potion', 'misc'];
-$items = [];
 
-try {
-    $stmt = $db->query("SELECT * FROM items");
-    $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    echo "Error al leer en base de datos: " . $e->getMessage();
-}
+$itemModel = new Item($db);
+$items = $itemModel->getAll();
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $item = new Item($db);
@@ -19,10 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ->setDescription($_POST['description'])
         ->setType($_POST['type'])
         ->setEffect($_POST['effect'])
-        ->setImage($_POST['image']);
+        ->setImg($_POST['img']);
 
     if ($item->save()) {
-        // Redirect to avoid form resubmission
         header("Location: " . $_SERVER['PHP_SELF']);
         exit;
     }
@@ -47,20 +41,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <label for="descriptionInput">Descripción:</label>
         <input type="text" name="description" id="descriptionInput">
 
-        <!--type (weapon, armor, potion, misc).-->
         <label for="typeInput">Tipo:</label>
         <select name="type" id="typeInput">
-            <?php foreach ($item_types as $type) : ?>
-                <option value="<?= $type ?>"><?= htmlspecialchars($type) ?></option>
-            <?php endforeach; ?>
+            <option value="weapon">Arma</option>
+            <option value="armor">Armadura</option>
+            <option value="potion">Pocion</option>
+            <option value="misc">Miscelaneo</option>
         </select>
-
 
         <label for="effectInput">Efecto:</label>
         <input type="number" name="effect" id="effectInput">
 
         <label for="imageInput">Imagen:</label>
-        <input type="text" name="image" id="imageInput">
+        <input type="text" name="img" id="imageInput">
 
         <button type="submit">Crear item</button>
     </form>
@@ -80,7 +73,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <tbody>
             <?php foreach ($items as $item) : ?>
                 <tr>
-                    <td>img</td>
+                    <td>
+                        <?php if(!empty($item['img'])){ ?>
+                            <img src="<?= $item["img"] ?>" alt="<?= $item["name"] ?>">
+                        <?php }; ?>
+                    </td>
                     <td><?= $item['name'] ?></td>
                     <td><?= $item['description'] ?></td>
                     <td><?= $item['type'] ?></td>

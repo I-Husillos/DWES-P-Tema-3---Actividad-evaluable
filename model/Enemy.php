@@ -8,7 +8,7 @@ class Enemy {
     private $health;
     private $strength;
     private $defense;
-    private $image;
+    private $img;
 
     private $db;
 
@@ -101,14 +101,14 @@ class Enemy {
         return $this;
     }
 
-    public function getImage()
+    public function getImg()
     {
-        return $this->image;
+        return $this->img;
     }
 
-    public function setImage($image)
+    public function setImg($img)
     {
-        $this->image = $image;
+        $this->img = $img;
 
         return $this;
     }
@@ -141,7 +141,7 @@ class Enemy {
             $this->health = $data['health'];
             $this->strength = $data['strength'];
             $this->defense = $data['defense'];
-            $this->image = $data['image'];
+            $this->img = $data['img'];
             return true;
         }
         return false;
@@ -178,33 +178,25 @@ class Enemy {
                         health = :health,
                         strength = :strength,
                         defense = :defense,
-                        image = :image
+                        img = :img
                         WHERE id = :id"
             );
             $stmt->bindParam(':id', $this->id);
         } else {
             $stmt = $this->db->prepare(
                 "INSERT INTO enemies
-                        (name, description, isBoss, health, strength, defense, image)
-                VALUES (:name, :description, :isBoss, :health, :strength, :defense, :image)"
+                        (name, description, isBoss, health, strength, defense, img)
+                VALUES (:name, :description, :isBoss, :health, :strength, :defense, :img)"
             );
         }
         
-        // $stmt->bindParam(':name', $this->getName());
-        // $stmt->bindParam(':description', $this->getDescription());
-        // $stmt->bindParam(':isBoss', $this->getIsBoss());
-        // $stmt->bindParam(':health', $this->getHealth());
-        // $stmt->bindParam(':strength', $this->getStrength());
-        // $stmt->bindParam(':defense', $this->getDefense());
-        // $stmt->bindParam(':image', $this->getImage());
-
         $stmt->bindParam(':name', $this->name);
         $stmt->bindParam(':description', $this->description);
         $stmt->bindParam(':isBoss', $this->isBoss);
         $stmt->bindParam(':health', $this->health);
         $stmt->bindParam(':strength', $this->strength);
         $stmt->bindParam(':defense', $this->defense);
-        $stmt->bindParam(':image', $this->image);
+        $stmt->bindParam(':img', $this->img);
 
         return $stmt->execute();
     }
