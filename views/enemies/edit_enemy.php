@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <input type="number" name="defense" id="defense" value="<?= htmlspecialchars($enemy->getDefense()) ?>"  required><br>
 
         <label for="image">Imagen del enemigo:</label>
-        <input type="text" name="img" id="img" value="<?= htmlspecialchars($enemy->getImg()) ?>"><br>
+        <input type="text" name="img" id="img" value="<?= htmlspecialchars($enemy->getImg()) ?>" required><br>
 
 
         <button type="submit">Guardar Cambios</button>

@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         <input type="text" name="description" id="descriptionInput">
 
         <label for="isBossInput">Es Boss:</label>
-        <input type="checkbox" name="isBoss" id="isBossInput" value="1">
+        <input type="checkbox" name="isBoss" id="isBossInput" value="1" required>
 
         <label for="healthInput">Vida:</label>
         <input type="number" name="health" id="healthInput" value="100">
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         <input type="number" name="defense" id="defenseInput" value="10">
 
         <label for="imageInput">Imagen del enemigo:</label>
-        <input type="text" name="img" id="imageInput">
+        <input type="text" name="img" id="imageInput" required>
 
         <button type="submit">Crear enemigo</button>
     </form>

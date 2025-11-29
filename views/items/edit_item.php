@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <input type="number" name="effect" id="effect" value="<?= htmlspecialchars($item->getEffect()) ?>" required><br>
 
         <label for="image">Imagen:</label>
-        <input type="text" name="img" id="img" value="<?= htmlspecialchars($item->getImg()) ?>"><br>
+        <input type="text" name="img" id="img" value="<?= htmlspecialchars($item->getImg()) ?>" required><br>
 
         <button type="submit">Guardar Cambios</button>
     </form>

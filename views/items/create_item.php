@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <h1>Crea tu item</h1>
     <form action=<?= $_SERVER['PHP_SELF'] ?> method='POST'>
         <label for="nameInput">Nombre:</label>
-        <input type="text" name="name" id="nameInput">
+        <input type="text" name="name" id="nameInput" required>
 
         <label for="descriptionInput">Descripción:</label>
         <input type="text" name="description" id="descriptionInput">
@@ -50,10 +50,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </select>
 
         <label for="effectInput">Efecto:</label>
-        <input type="number" name="effect" id="effectInput">
+        <input type="number" name="effect" id="effectInput" value="1" required>
 
         <label for="imageInput">Imagen:</label>
-        <input type="text" name="img" id="imageInput">
+        <input type="text" name="img" id="imageInput" required>
 
         <button type="submit">Crear item</button>
     </form>

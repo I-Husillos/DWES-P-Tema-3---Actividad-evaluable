@@ -44,10 +44,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <input type="text" name="type" id="typeInput">
 
         <label for="effectInput">Efecto:</label>
-        <input type="number" name="effect" id="effectInput">
+        <input type="number" name="effect" id="effectInput" required>
 
         <label for="imageInput">Imagen:</label>
-        <input type="text" name="image" id="imageInput">
+        <input type="text" name="img" id="imageInput" required>
 
         <button type="submit">Crear item</button>
     </form>
@@ -67,7 +67,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <tbody>
             <?php foreach ($items as $item) : ?>
                 <tr>
-                    <td>img</td>
+                    <td>
+                        <?php if(!empty($item['img'])){ ?>
+                            <img src="<?= $item["img"] ?>" alt="<?= $item["name"] ?>">
+                        <?php }; ?>
+                    </td>
                     <td><?= $item['name'] ?></td>
                     <td><?= $item['description'] ?></td>
                     <td><?= $item['type'] ?></td>
